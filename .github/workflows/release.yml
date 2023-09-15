@@ -65,7 +65,7 @@ jobs:
 
   publish-npm:
     name: Publish to NPM Registry
-    needs: release
+    needs: prepare
     runs-on: ubuntu-latest
     continue-on-error: false
     if: needs.release.outputs.releaseReady == 'true'
@@ -89,7 +89,7 @@ jobs:
 
   publish-github:
     name: Publish to Github Registry
-    needs: release
+    needs: prepare
     runs-on: ubuntu-latest
     continue-on-error: false
     if: needs.release.outputs.releaseReady == 'true'
