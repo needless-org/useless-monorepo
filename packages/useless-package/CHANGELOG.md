@@ -1,5 +1,12 @@
 # @needless-org/useless-package
 
+## 1.1.1
+
+### Patch Changes
+
+- Updated dependencies [147f553]
+  - @needless-org/useless-function@1.1.1
+
 ## 1.1.0
 
 ### Minor Changes
