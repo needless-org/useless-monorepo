@@ -40,7 +40,7 @@ jobs:
 
   publish-npm:
     name: Publish to NPM Registry
-    needs: prepare
+    needs: release
     runs-on: ubuntu-latest
     continue-on-error: false
     steps:
@@ -63,7 +63,7 @@ jobs:
 
   publish-github:
     name: Publish to Github Registry
-    needs: prepare
+    needs: release
     runs-on: ubuntu-latest
     continue-on-error: false
     steps:
