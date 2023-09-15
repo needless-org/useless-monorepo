@@ -1,6 +1,6 @@
 {
   "name": "@needless-org/useless-package",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "index.js",
   "files": [
     "index.js"
@@ -9,6 +9,5 @@
   "dependencies": {
     "@needless-org/useless-object": "workspace:*",
     "@needless-org/useless-function": "workspace:*"
-
   }
 }
