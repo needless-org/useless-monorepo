@@ -31,7 +31,6 @@ jobs:
           registry-url: 'https://registry.npmjs.org/'
           package-manager: 'pnpm'
           scope: '@needless-org'
-          install-dependencies: false
 
       - name: Create Release
         id: changesets
@@ -70,7 +69,6 @@ jobs:
           registry-url: https://npm.pkg.github.com/
           package-manager: 'pnpm'
           scope: '@needless-org'
-          install-dependencies: false
 
       - name: Create Release
         id: changesets
