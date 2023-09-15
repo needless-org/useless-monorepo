@@ -3,6 +3,7 @@
   "private": "true",
   "scripts": {
     "changes:release": "changeset publish",
+    "changes:release:gh": "changeset publish  --no-git-tag",
     "changes:add": "changeset add"
   },
   "devDependencies": {
