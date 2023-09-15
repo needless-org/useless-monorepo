@@ -2,7 +2,7 @@
   "name": "useless-monorepo",
   "private": "true",
   "scripts": {
-    "changes:release": "changeset tag",
+    "changes:release": "changeset publish",
     "changes:add": "changeset add"
   },
   "devDependencies": {

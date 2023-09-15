@@ -23,72 +23,35 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Make a release if needed
-        uses: ./.github/actions/release
-        id: release
+      - name: Prepare node
+        uses: ./.github/actions/prepare-node
+        id: prepare-node
         with:
           node-version: 18
+          registry-url: 'https://registry.npmjs.org/'
           package-manager: 'pnpm'
-          release-pr-title: 'chore(release): :package: version update for packages'
-          release-commit-message: 'chore(release): version update for packages'
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          release-command: 'changes:release'
+          scope: '@needless-org'
+          install-dependencies: false
+
+      - name: Create Release
+        id: changesets
+        uses: changesets/action@v1
+        with:
+          publish: pnpm changes:release
+          title: 'ci(changesets): :package: version packages'
+          commit: 'ci(changesets): version packages'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Generate outputs
         id: releaseOutputs
-        if: steps.release.outputs.release-ready == 'true'
+        if: steps.changesets.outputs.published == 'true'
         run: echo "releaseReady=true" >> $GITHUB_OUTPUT
-
-  prepare:
-    name: Prepare packages
-    runs-on: ubuntu-latest
-    needs: release
-    if: ${{ needs.release.outputs.releaseReady == 'true' }}
-    steps:
-      - name: Cancel previous jobs
-        uses: styfle/cancel-workflow-action@0.11.0
-
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Pack artifact
-        shell: bash
-        run:  tar -czf /tmp/artifact.tar.gz .
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: package-artifact
-          path: /tmp/artifact.tar.gz
-          retention-days: 1
-
-  publish-npm:
-    name: Publish to NPM Registry
-    needs: prepare
-    runs-on: ubuntu-latest
-    continue-on-error: false
-    if: needs.release.outputs.releaseReady == 'true'
-    steps:
-      - name: Cancel previous jobs
-        uses: styfle/cancel-workflow-action@0.11.0
-
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Publish to NPM
-        uses: ./.github/actions/publish
-        with:
-          node-version: 18
-          package-manager: 'pnpm'
-          registry-url: 'https://registry.npmjs.org/'
-          artifact-name: 'package-artifact'
-          scope: '@needless-org'
-          use-public-flag: true
-          auth-token: ${{ secrets.NPM_TOKEN }}
 
   publish-github:
     name: Publish to Github Registry
-    needs: prepare
+    needs: release
     runs-on: ubuntu-latest
     continue-on-error: false
     if: needs.release.outputs.releaseReady == 'true'
@@ -99,12 +62,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Publish to NPM
-        uses: ./.github/actions/publish
+      - name: Prepare node
+        uses: ./.github/actions/prepare-node
+        id: prepare-node
         with:
           node-version: 18
-          package-manager: 'pnpm'
           registry-url: https://npm.pkg.github.com/
-          artifact-name: 'package-artifact'
+          package-manager: 'pnpm'
           scope: '@needless-org'
-          auth-token: ${{ secrets.GITHUB_TOKEN }}
+          install-dependencies: false
+
+      - name: Create Release
+        id: changesets
+        uses: changesets/action@v1
+        with:
+          publish: pnpm changes:release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
