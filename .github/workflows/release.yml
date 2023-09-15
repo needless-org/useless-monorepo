@@ -8,6 +8,7 @@ on:
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
 
+
 jobs:
   release:
     name: Create release
@@ -38,11 +39,36 @@ jobs:
         if: steps.release.outputs.release-ready == 'true'
         run: echo "releaseReady=true" >> $GITHUB_OUTPUT
 
+  prepare:
+    name: Prepare packages
+    runs-on: ubuntu-latest
+    continue-on-error: false
+    needs: release
+    if: ${{ needs.release.outputs.releaseReady == 'true' }}
+    steps:
+      - name: Cancel previous jobs
+        uses: styfle/cancel-workflow-action@0.11.0
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Pack artifact
+        shell: bash
+        run:  tar -czf /tmp/artifact.tar.gz .
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ inputs.artifact-name }}
+          path: /tmp/artifact.tar.gz
+          retention-days: ${{ inputs.artifact-retention-days }}
+
   publish-npm:
     name: Publish to NPM Registry
     needs: release
     runs-on: ubuntu-latest
     continue-on-error: false
+    if: needs.release.outputs.releaseReady == 'true'
     steps:
       - name: Cancel previous jobs
         uses: styfle/cancel-workflow-action@0.11.0
@@ -66,6 +92,7 @@ jobs:
     needs: release
     runs-on: ubuntu-latest
     continue-on-error: false
+    if: needs.release.outputs.releaseReady == 'true'
     steps:
       - name: Cancel previous jobs
         uses: styfle/cancel-workflow-action@0.11.0
