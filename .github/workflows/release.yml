@@ -8,7 +8,6 @@ on:
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
 
-
 jobs:
   release:
     name: Create release
@@ -38,26 +37,6 @@ jobs:
         id: releaseOutputs
         if: steps.release.outputs.release-ready == 'true'
         run: echo "releaseReady=true" >> $GITHUB_OUTPUT
-
-  prepare:
-    name: Prepare packages
-    runs-on: ubuntu-latest
-    continue-on-error: false
-    needs: release
-    if: ${{ needs.release.outputs.releaseReady == 'true' }}
-    steps:
-      - name: Cancel previous jobs
-        uses: styfle/cancel-workflow-action@0.11.0
-
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Prepare
-        uses: ./.github/actions/prepare-packages
-        with:
-          node-version: 18
-          package-manager: 'pnpm'
-          build-command: 'another:build:command'
 
   publish-npm:
     name: Publish to NPM Registry

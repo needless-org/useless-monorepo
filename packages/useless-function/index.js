@@ -1,3 +1,5 @@
 module.exports = {
-  uselessFunction: () => {},
+  uselessFunction: () => {
+    console.log('changes to track changesets')
+  },
 };
