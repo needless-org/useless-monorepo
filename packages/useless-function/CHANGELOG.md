@@ -1,5 +1,11 @@
 # @needless-org/useless-function
 
+## 1.0.1
+
+### Patch Changes
+
+- a50a3dc: fixes
+
 ## 1.0.0
 
 ### Major Changes
