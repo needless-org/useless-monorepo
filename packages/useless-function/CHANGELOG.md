@@ -1,5 +1,11 @@
 # @needless-org/useless-function
 
+## 1.0.3
+
+### Patch Changes
+
+- 972d789: Changed workflow
+
 ## 1.0.2
 
 ### Patch Changes
