@@ -1,0 +1,11 @@
+{
+  "name": "useless-monorepo",
+  "private": "true",
+  "scripts": {
+    "changes:release": "changeset tag",
+    "changes:add": "changeset add"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.26.2"
+  }
+}
