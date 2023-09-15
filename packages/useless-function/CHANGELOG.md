@@ -1,5 +1,11 @@
 # @needless-org/useless-function
 
+## 1.0.2
+
+### Patch Changes
+
+- 103a854: Add moooooore changes
+
 ## 1.0.1
 
 ### Patch Changes
