@@ -42,7 +42,6 @@ jobs:
   prepare:
     name: Prepare packages
     runs-on: ubuntu-latest
-    continue-on-error: false
     needs: release
     if: ${{ needs.release.outputs.releaseReady == 'true' }}
     steps:
