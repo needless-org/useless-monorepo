@@ -59,9 +59,9 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ inputs.artifact-name }}
+          name: package-artifact
           path: /tmp/artifact.tar.gz
-          retention-days: ${{ inputs.artifact-retention-days }}
+          retention-days: 1
 
   publish-npm:
     name: Publish to NPM Registry
