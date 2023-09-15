@@ -1,10 +1,14 @@
 {
   "name": "@needless-org/useless-package",
+  "private": false,
   "version": "1.0.2",
   "main": "index.js",
   "files": [
     "index.js"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "license": "MIT",
   "dependencies": {
     "@needless-org/useless-object": "workspace:*",
