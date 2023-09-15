@@ -1,5 +1,11 @@
 # @needless-org/useless-function
 
+## 1.1.0
+
+### Minor Changes
+
+- 2f13286: some minor changes
+
 ## 1.0.3
 
 ### Patch Changes
